@@ -799,6 +799,8 @@ function onMapClick(btn) {
         logChat('gameChatLog', name, text);
         Net.send({ type: 'chat', name, text });
       } else if (Net.connected) {
+        logChat('lobbyChatLog', name, text);
+        logChat('gameChatLog', name, text);
         Net.send({ type: 'chat', name, text });
       } else {
         logChat(state.screen === 'hud' ? 'gameChatLog' : 'lobbyChatLog', name, text);

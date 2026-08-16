@@ -233,7 +233,7 @@
       if (p.dead) return false;
       if (cell < 0 || cell >= CELLS || this.terrain[cell] < T.SAND) return false;
       if (this.owner[cell] === p.idx) {
-        p.attack = null;
+        this.endAttack(p);
         return true;
       }
       const x = cell % GW, y = (cell / GW) | 0;
@@ -281,6 +281,16 @@
     }
 
     cancelAttack(p) {
+      this.endAttack(p);
+    }
+
+    endAttack(p) {
+      const a = p.attack;
+      if (a && a.pool > 0) {
+        p.balance += a.pool;
+        const cap = HARD_F * Math.max(1, p.pixels);
+        if (p.balance > cap) p.balance = cap;
+      }
       p.attack = null;
     }
 
@@ -289,13 +299,13 @@
       if (!a) return;
       if (a.pct <= 0) return;
       if (a.bonus > 0) { a.pool += a.bonus; a.bonus = 0; }
-      if (a.pool < COST_NEUTRAL) { p.attack = null; return; }
+      if (a.pool < COST_NEUTRAL) { this.endAttack(p); return; }
 
       const maxR = Math.sqrt(a.pool / COST_NEUTRAL / Math.PI);
       let targetR = Math.min(maxR, a.r + WAVE_SPEED);
       if (targetR <= a.r) {
         const fr = this.frontierBox(p, a.tx, a.ty, a.r + 2);
-        if (!fr.length) { p.attack = null; return; }
+        if (!fr.length) { this.endAttack(p); return; }
         targetR = a.r;
       }
       const tR2 = targetR * targetR;
@@ -353,7 +363,7 @@
       } else {
         a.r = Math.min(targetR, a.r + 0.05);
         a.stall++;
-        if (a.stall >= 8) p.attack = null;
+        if (a.stall >= 8) this.endAttack(p);
       }
     }
 
