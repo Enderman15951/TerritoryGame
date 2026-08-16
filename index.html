@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Territorial P2P</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <canvas id="game"></canvas>
+  <div id="ui">
+
+    <div id="menu" class="screen">
+      <h1>TERRITORIAL P2P</h1>
+      <p class="sub">Grow your balance, conquer your neighbours, rule the map.</p>
+      <div class="row"><label>Name</label><input type="text" id="name" maxlength="14" value="Captain"></div>
+      <div class="row"><label>Color</label><input type="color" id="color" value="#e63946"></div>
+      <div class="row"><label>Bots</label><input type="number" id="bots" value="4" min="0" max="8"></div>
+      <div class="btns">
+        <button id="hostBtn">Host Game</button>
+        <button id="joinBtn">Join Code</button>
+      </div>
+      <div id="joinBox" class="hidden">
+        <div class="row"><label>Join code</label><input type="text" id="code" maxlength="5" placeholder="ABC12"></div>
+        <button id="joinGo">Connect</button>
+      </div>
+      <div class="controls">Pick your spawn in the first 10s: click once to claim your starting area &middot; Then attack land to conquer &middot; Click sea to send a ship &middot; Right-click for context menu &middot; Middle-drag to pan &middot; Wheel to zoom &middot; Enter for chat</div>
+      <div id="status" class="status"></div>
+    </div>
+
+    <div id="lobby" class="screen hidden">
+      <h2>LOBBY</h2>
+      <div class="row"><label>Room code</label><span id="codeShow" class="code"></span></div>
+      <ul id="lobbyList"></ul>
+      <div id="chatBox">
+        <div id="lobbyChatLog" class="chatLog"></div>
+        <div class="chatInput"><input type="text" id="chatText" maxlength="120" placeholder="Say something"><button id="chatSend">Send</button></div>
+      </div>
+      <div class="btns">
+        <button id="startBtn">Start Game</button>
+        <button id="leaveBtn">Leave</button>
+      </div>
+      <div id="status2" class="status"></div>
+    </div>
+
+    <div id="hud" class="screen hidden">
+      <div id="minimap"><canvas id="mini"></canvas></div>
+      <div id="score"></div>
+      <div id="timer" class="timer">0% OF MAP</div>
+      <div id="mode" class="mode">BAL 0</div>
+      <div id="attackBar" class="panel">
+        <div class="atkRow">
+          <label for="atkSlider">ATTACK</label>
+          <input type="range" id="atkSlider" min="0" max="100" value="30" step="1">
+          <span id="atkVal">30%</span>
+          <button id="cancelAtk">Stop</button>
+        </div>
+        <div class="atkHint">Right-click anywhere, then Attack: land to conquer, player to fight</div>
+      </div>
+      <div id="ctxMenu" class="hidden">
+        <button id="ctxAttack">Attack</button>
+      </div>
+      <div id="gameChat">
+        <div id="gameChatLog" class="chatLog"></div>
+        <div class="chatInput"><input type="text" id="gameChatText" maxlength="120" placeholder="Chat..."><button id="gameChatSend">Send</button></div>
+      </div>
+    </div>
+
+    <div id="gameover" class="screen hidden">
+      <h2>GAME OVER</h2>
+      <div id="results"></div>
+      <div class="btns">
+        <button id="restartBtn">Play Again</button>
+        <button id="backBtn">Main Menu</button>
+      </div>
+      <div id="status3" class="status"></div>
+    </div>
+
+  </div>
+</div>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="js/perlin.js"></script>
+<script src="js/terrain.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/net.js"></script>
+<script src="js/render.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
